@@ -21,21 +21,43 @@ function getGIFS() {
 	$.ajax({url: domain, method: 'GET', data: query})
 	.done(function(response) {
 		for (i in response.data) {
-			var selector = '#number'
-			selector = selector.concat(parseInt(i)+1)
-			console.log(selector)
+			var imgSelector = '#number'
+			var ratingSelector = '#rating'
+			imgSelector = imgSelector.concat(parseInt(i)+1)
+			ratingSelector = ratingSelector.concat(parseInt(i)+1)
+			console.log(imgSelector)
+			console.log(ratingSelector)
 			var fixedUrl = response.data[i].images.original_still.url
-			var animateURL = response.data[i].images.original.url
+			var animateUrl = response.data[i].images.original.url
 			var rating = response.data[i].rating
 			var img = $('<img>').attr({
 				src: fixedUrl,
-				animateURL: animateURL,
-				fixedURL: fixedUrl,
+				animateUrl: animateUrl,
+				fixedUrl: fixedUrl,
 				status: 'fixed'
 			})
-			$(selector).prepend(img)
+			$(imgSelector).prepend(img)
+			$(ratingSelector).html(rating)
 		}
+		$('img').on('click', toggleGIF)
 	})
+}
+
+function toggleGIF() {
+	console.log('toggleGIF initiated')
+	var status = $(this).attr('status')
+	var ani = $(this).attr('animateUrl')
+	var fix = $(this).attr('fixedUrl')
+	if (status == 'fixed') {
+		$(this).attr('src', ani)
+		$(this).attr('status', 'animated')
+	}
+	else if (status == 'animated') {
+		$(this).attr('src', fix)
+		$(this).attr('status', 'fixed')
+	}else {
+		console.log('Unexpected error in toggleGIF()')
+	}
 }
 
 
