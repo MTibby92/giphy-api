@@ -1,9 +1,9 @@
 var topics = ['English Premier League', 'World Cup Soccer', 'NBA', 'NFL']
 var domain = 'http://api.giphy.com/v1/gifs/search?'
 var key = 'dc6zaTOxFJmzC'
-var userInput;
+//var userInput;
 var query = {
-	q: 'funny',
+	q: undefined, //'funny',
 	limit: 10,
 	rating: 'pg',
 	api_key: key
@@ -11,13 +11,25 @@ var query = {
 
 function createButtons(arr) {
 	for (i in arr) {
-		var button = $('<button>').attr('class', 'btn btn-primary')
+		var button = $('<button>').attr('class', 'btn btn-primary search')
 		$(button).html(arr[i])
 		$('#gifButtons').append(button)
 	}
 }
 
 function getGIFS() {
+	for (var i=0; i<10; i++) {
+		var imgSelector2 = '#number'
+		var ratingSelector2 = '#rating'
+		imgSelector2 = imgSelector2.concat(parseInt(i)+1)
+		ratingSelector2 = ratingSelector2.concat(parseInt(i)+1)
+
+		if($(imgSelector2).children().length > 1) {
+			console.log('met criteria for removal')
+			$('.gifImg').remove()
+		}
+	}
+
 	$.ajax({url: domain, method: 'GET', data: query})
 	.done(function(response) {
 		for (i in response.data) {
@@ -34,12 +46,26 @@ function getGIFS() {
 				src: fixedUrl,
 				animateUrl: animateUrl,
 				fixedUrl: fixedUrl,
-				status: 'fixed'
+				status: 'fixed',
+				class: 'gifImg'
 			})
 			$(imgSelector).prepend(img)
 			$(ratingSelector).html(rating)
 		}
 		$('img').on('click', toggleGIF)
+
+		//code for removing duplicates; doesn't really work
+		for (var i=0; i<10; i++) {
+			var imgSelector2 = '#number'
+			var ratingSelector2 = '#rating'
+			imgSelector2 = imgSelector2.concat(parseInt(i)+1)
+			ratingSelector2 = ratingSelector2.concat(parseInt(i)+1)
+
+			if($(imgSelector2 + ' img').length > 1) {
+				console.log('met criteria for removal')
+				$('.gifImg:first').remove()
+			}
+		}
 	})
 }
 
@@ -60,8 +86,35 @@ function toggleGIF() {
 	}
 }
 
+function newButton() {
+	var newBtn = $('<button>').attr('class', 'btn btn-primary search')
+	$(newBtn).html($('#searchBar').val())
+	$('#gifButtons').append(newBtn)
+
+	$('.search').on('click', function(event) {
+		query.q = $(event.target).html()
+		$('.caption').show()
+		getGIFS()
+	})
+	$('#searchBar').val('')
+}
 
 $(document).ready(function() {
+	$('.caption').hide()
 	createButtons(topics)
-	getGIFS()
+
+	$('#searchBar').keydown(function(event){    
+	    if(event.keyCode==13){
+	       $('#searchBtn').trigger('click')
+	    }
+	})
+
+	$('#searchBtn').click(newButton)
+
+	$('.search').on('click', function(event) {
+		query.q = $(event.target).html()
+		$('.caption').show()
+		getGIFS()
+		query.q = undefined
+	})
 })
