@@ -18,6 +18,7 @@ function createButtons(arr) {
 }
 
 function getGIFS() {
+	$('.thumbnail').show()
 	for (var i=0; i<10; i++) {
 		var imgSelector2 = '#number'
 		var ratingSelector2 = '#rating'
@@ -96,17 +97,11 @@ function newButton() {
 		query.q = undefined
 	})
 	$('#gifButtons').append(newBtn)
-
-	// $('.search').on('click', function(event) {
-	// 	query.q = $(event.target).html()
-	// 	$('.caption').show()
-	// 	getGIFS()
-	// 	query.q = undefined
-	// })
 	$('#searchBar').val('')
 }
 
 $(document).ready(function() {
+	$('.thumbnail').hide()
 	$('.caption').hide()
 	createButtons(topics)
 
