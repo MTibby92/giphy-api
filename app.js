@@ -1,5 +1,5 @@
 var topics = ['English Premier League', 'World Cup Soccer', 'NBA', 'NFL']
-var domain = 'http://api.giphy.com/v1/gifs/search?'
+var domain = 'https://api.giphy.com/v1/gifs/search?'
 var key = 'dc6zaTOxFJmzC'
 //var userInput;
 var query = {
