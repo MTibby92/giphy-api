@@ -1,4 +1,4 @@
-var topics = ['English Premier League', 'World Cup Soccer', 'NBA', 'NFL']
+var topics = ['English Premier League', 'World Cup Soccer', 'NBA', 'NFL', 'Kobe', 'Michael Jordan', 'Steven Gerrard', 'Messi', 'Ronaldo', 'Stephen Curry']
 var domain = 'https://api.giphy.com/v1/gifs/search?'
 var key = 'dc6zaTOxFJmzC'
 //var userInput;
