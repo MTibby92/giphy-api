@@ -26,7 +26,7 @@ function getGIFS() {
 
 		if($(imgSelector2).children().length > 1) {
 			console.log('met criteria for removal')
-			$('.gifImg').remove()
+			$('.gifImg:first').remove()
 		}
 	}
 
@@ -55,17 +55,17 @@ function getGIFS() {
 		$('img').on('click', toggleGIF)
 
 		//code for removing duplicates; doesn't really work
-		for (var i=0; i<10; i++) {
-			var imgSelector2 = '#number'
-			var ratingSelector2 = '#rating'
-			imgSelector2 = imgSelector2.concat(parseInt(i)+1)
-			ratingSelector2 = ratingSelector2.concat(parseInt(i)+1)
+		// for (var i=0; i<10; i++) {
+		// 	var imgSelector2 = '#number'
+		// 	var ratingSelector2 = '#rating'
+		// 	imgSelector2 = imgSelector2.concat(parseInt(i)+1)
+		// 	ratingSelector2 = ratingSelector2.concat(parseInt(i)+1)
 
-			if($(imgSelector2 + ' img').length > 1) {
-				console.log('met criteria for removal')
-				$('.gifImg:first').remove()
-			}
-		}
+		// 	if($(imgSelector2 + ' img').length > 1) {
+		// 		console.log('met criteria for removal')
+		// 		$('.gifImg:first').remove()
+		// 	}
+		// }
 	})
 }
 
@@ -89,13 +89,20 @@ function toggleGIF() {
 function newButton() {
 	var newBtn = $('<button>').attr('class', 'btn btn-primary search')
 	$(newBtn).html($('#searchBar').val())
-	$('#gifButtons').append(newBtn)
-
-	$('.search').on('click', function(event) {
+	newBtn.click(function(event) {
 		query.q = $(event.target).html()
 		$('.caption').show()
 		getGIFS()
+		query.q = undefined
 	})
+	$('#gifButtons').append(newBtn)
+
+	// $('.search').on('click', function(event) {
+	// 	query.q = $(event.target).html()
+	// 	$('.caption').show()
+	// 	getGIFS()
+	// 	query.q = undefined
+	// })
 	$('#searchBar').val('')
 }
 
